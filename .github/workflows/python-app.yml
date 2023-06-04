@@ -1,49 +1,30 @@
 import random
 
-class Tank:
-    def __init__(self, name):
-        self.name = name
-        self.health = 100
-        self.damage = 20
+def jugar_juego():
+    print("Bienvenido al juego de magia!")
+    print("Piensa en un número del 1 al 100 y yo trataré de adivinarlo.")
 
-    def attack(self, target):
-        target.health -= self.damage
-        print(f"{self.name} ataca a {target.name} y le causa {self.damage} puntos de daño.")
-        if target.health <= 0:
-            print(f"{target.name} ha sido destruido.")
+    numero_secreto = random.randint(1, 100)
+    intentos = 0
+    acertado = False
 
-    def is_alive(self):
-        return self.health > 0
+    while not acertado:
+        intentos += 1
+        adivinanza = random.randint(1, 100)
+        print("¿Es este tu número?:", adivinanza)
 
-
-def main():
-    player_tank = Tank("Jugador")
-    enemy_tank = Tank("Enemigo")
-
-    while player_tank.is_alive() and enemy_tank.is_alive():
-        print(f"{player_tank.name}: {player_tank.health} de salud")
-        print(f"{enemy_tank.name}: {enemy_tank.health} de salud")
-        print("")
-
-        # Turno del jugador
-        player_choice = input("¿Qué quieres hacer? (a = atacar, s = salir): ")
-        if player_choice == "a":
-            player_tank.attack(enemy_tank)
-        elif player_choice == "s":
-            print("Has decidido salir del juego.")
-            break
+        respuesta = input("¿Es correcto? (s/n): ")
+        if respuesta == "s":
+            acertado = True
+        elif respuesta == "n":
+            pista = input("¿Es el número mayor o menor? (mayor/menor): ")
+            if pista == "mayor":
+                adivinanza = random.randint(adivinanza + 1, 100)
+            elif pista == "menor":
+                adivinanza = random.randint(1, adivinanza - 1)
         else:
-            print("Opción inválida. Intenta de nuevo.")
+            print("Respuesta no válida. Por favor, responde con 's' o 'n'.")
 
-        # Turno del enemigo
-        enemy_choice = random.choice(["a", "s"])
-        if enemy_choice == "a":
-            enemy_tank.attack(player_tank)
-        elif enemy_choice == "s":
-            print("El enemigo ha decidido salir del juego.")
-            break
+    print(f"Adiviné tu número en {intentos} intentos. ¡Eso es magia!")
 
-    print("Juego terminado.")
-
-if __name__ == "__main__":
-    main()
+jugar_juego()
